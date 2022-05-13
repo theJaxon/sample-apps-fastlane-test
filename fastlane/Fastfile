@@ -16,9 +16,27 @@
 default_platform(:ios)
 
 platform :ios do
+  desc "Build for testing"
+  lane :tests_builder do
+    scan(
+      scheme: "sample-apps-fastlane-test",
+      build_for_testing: true
+    )
+  end
+
   desc "Runs unit tests and UI tests"
-  lane :tests do
-    run_tests(scheme: "sample-apps-fastlane-test")
+  lane :tests_runner do
+    scan(
+      scheme: "sample-apps-fastlane-test",
+      test_without_building: true
+    )
+  end
+
+  desc "Compile App"
+  lane :code_builder do
+    gym(
+      scheme: "sample-apps-fastlane-test"
+    )
   end
 
   desc "Push a new release build to the App Store"
